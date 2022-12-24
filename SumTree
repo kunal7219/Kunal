@@ -1,0 +1,58 @@
+/*************************************************************
+ 
+    Following is the Binary Tree node structure
+
+    class BinaryTreeNode 
+    {
+    public : 
+        T data;
+        BinaryTreeNode<T> *left;
+        BinaryTreeNode<T> *right;
+
+        BinaryTreeNode(T data) {
+            this -> data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+*************************************************************/
+void solve(BinaryTreeNode<int> *root){
+    if(root==NULL)return;
+    if(root->left!=NULL && root->right!=NULL){
+        root->data =root->left->data+root->right->data;
+        solve(root->left);
+        solve(root->right);
+    }
+    if(root->left!=NULL && root->right==NULL){
+        root->data=root->left->data;
+        solve(root->left);
+    }
+    if(root->left==NULL && root->right!=NULL){
+        root->data=root->right->data;
+        solve(root->right);
+    }
+    if(root->left==NULL && root->right==NULL){
+        root->data=0;
+        return;
+    }
+    
+    
+}
+void store(vector<int>& ans,BinaryTreeNode<int> *root){
+    if(root==NULL)return;
+    ans.push_back(root->data);
+    store(ans,root->left);
+        store(ans,root->right);
+
+}
+vector<int> sumTree(BinaryTreeNode<int> *root)
+{
+    //Write your code here
+    solve(root);
+    vector<int> ans;
+    if(root==NULL)
+    return ans;
+    store(ans,root);
+    return ans;
+}
