@@ -1,0 +1,56 @@
+class Solution {
+    private: 
+    void solve1(vector<int> &ans,Node* root){
+        if(root==NULL  || (root->left==NULL && root->right==NULL))
+        return ;
+        
+            ans.push_back(root->data);
+            if(root->left)
+            solve1(ans,root->left);
+            else{
+            solve1(ans,root->right);
+            }
+            return ;
+        
+    }
+    void solve2(vector<int> &ans,Node* root){
+        if(root==NULL)
+        return ;
+        if(root->left==NULL && root->right==NULL){
+            ans.push_back(root->data);
+            return;
+        }
+            solve2(ans,root->left);
+            solve2(ans,root->right);
+            return ;
+    }
+    void solve3(vector<int> &ans,Node* root){
+        if(root==NULL || (root->right ==NULL&& root->left==NULL))
+        return ;
+        
+            if(root->right)
+            solve3(ans,root->right);
+            else
+            solve3(ans,root->left);
+            
+            ans.push_back(root->data);
+            return ;
+        
+    }
+public:
+    vector <int> boundary(Node *root)
+    {
+        //Your code here
+        vector<int> ans;
+        if(root==NULL)return ans;
+        int d = root->data;
+        ans.push_back(d);
+        solve1(ans,root->left);
+        
+        solve2(ans,root->left);
+        solve2(ans,root->right);
+        
+        solve3(ans,root->right);
+        return ans;
+    }
+};
