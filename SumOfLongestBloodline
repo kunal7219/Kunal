@@ -1,0 +1,58 @@
+class Solution
+{
+    private:
+    pair<int, int> findEntryWithLargestValue(
+    map<int, int> sampleMap)
+{
+ 
+    // Reference variable to help find
+    // the entry with the highest value
+    pair<int, int> entryWithMaxValue
+        = make_pair(0, 0);
+ 
+    // Iterate in the map to find the required entry
+    map<int, int>::iterator currentEntry;
+    for (currentEntry = sampleMap.begin();
+        currentEntry != sampleMap.end();
+        ++currentEntry) {
+ 
+        // If this entry's value is more
+        // than the max value
+        // Set this entry as the max
+        if (currentEntry->first
+            >= entryWithMaxValue.first) {
+ 
+            entryWithMaxValue
+                = make_pair(
+                    currentEntry->first,
+                    currentEntry->second);
+        }
+    }
+ 
+    return entryWithMaxValue;
+}
+    void solve(map<int,int> &ans,Node* root,int sum,int lvl){
+        if(root==NULL)return;
+        if(root->left==NULL && root->right==NULL){
+            sum += root->data;
+            ans[lvl] = max(ans[lvl],sum);
+            return;
+        }
+        sum += root->data;
+        lvl++;
+        solve(ans,root->left,sum,lvl);
+        solve(ans,root->right,sum,lvl);        
+    }
+public:
+    
+    int sumOfLongRootToLeafPath(Node *root)
+    {
+        map<int,int> ans;
+        if(root==NULL)return 0;
+        int sum = 0;
+        int lvl = 0;
+        solve(ans,root,sum,lvl);
+        return findEntryWithLargestValue(ans).second;
+        
+    }
+};
