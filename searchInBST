@@ -1,0 +1,18 @@
+bool solve(TreeNode <int> * root, int key){
+    if(root==NULL)
+        return false;
+    if(root->data==key){
+        return true;
+    }
+    if(root->data>key){
+        solve(root->left,key);
+    }
+    else{
+        solve(root->right,key);
+    }
+}
+bool findNode(TreeNode <int> * root, int key) {
+    // Write your code here.
+    bool ans = solve(root,key);
+    return ans;
+}
