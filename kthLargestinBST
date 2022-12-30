@@ -1,0 +1,30 @@
+int solve(TreeNode<int> * root,int ans,int & count){
+        if(root==NULL){
+            return -1;
+        }
+        int left = solve(root->left,ans,count);
+    if(left!=-1){
+        return left;
+    }
+        count++;
+        if(ans==count){
+            return root->data;
+        }
+        return solve(root->right,ans,count);
+}
+int n(TreeNode<int> * root){
+    if(root==NULL)
+        return 0;
+    if(root->left==NULL && root->right==NULL){
+        return 1;
+    }
+    int l =n(root->left);
+    int r = n(root->right);
+    return (l+r+1);
+}
+int KthLargestNumber(TreeNode<int>* root, int k) 
+{    int count =0;
+     int total = n(root);
+    int ans = solve(root,total-k+1,count);
+    return ans;
+}
