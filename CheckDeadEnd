@@ -1,0 +1,23 @@
+bool p = false;
+void solve(TreeNode<int>* root,int mini,int maxi){
+    if(root==NULL)
+        return ;
+    if(root->left==NULL && root->right==NULL){
+    if(mini+1 == root->data && root->data+1 == maxi){
+        p = true;
+        return ;
+    }
+    }
+    solve(root->left,mini,root->data);
+    
+    solve(root->right,root->data,maxi);
+    
+}
+bool isDeadEnd(TreeNode<int>* root) {
+    solve(root,0,INT_MAX);
+    if(p==true){
+        p = false;
+        return true;
+    }
+    return false;
+}
