@@ -1,0 +1,45 @@
+TreeNode<int> * solve(int s,int e, vector <int> &ans){
+        if(s>e)
+            return NULL;
+        int mid = (s+e)/2;
+    TreeNode<int> * root = new TreeNode<int> (ans[mid]);
+       root->left =  solve(s,mid-1,ans);
+        root->right = solve(mid+1,e,ans);
+    return root;
+}
+void solve(TreeNode<int> *root, vector <int> &ans){
+        if(root==NULL)return;
+        
+        solve(root->left,ans);
+        ans.push_back(root->data);
+        solve(root->right,ans);
+}
+vector<int> mergeit(vector<int> ans1,vector<int> ans2){
+    int i=0,j=0,n=ans1.size(),m=ans2.size();
+    int k=0;
+    vector <int> ans3(n+m);
+        while(i<n && j<m){
+            if(ans1[i]<ans2[j]){
+                ans3[k++]=ans1[i++];
+            }
+            else{
+                ans3[k++]=ans2[j++];
+            }
+        }
+         while(i<n)
+             ans3[k++]=ans1[i++];
+         while(j<m)
+             ans3[k++]=ans2[j++];
+    return ans3;
+}
+TreeNode<int> *mergeBST(TreeNode<int> *root1, TreeNode<int> *root2){    
+    // Step 1 to store inorder
+    vector<int> ans1,ans2;
+    solve(root1,ans1);
+     solve(root2,ans2);
+    // step 2 to merge two sorted array 
+    vector<int> bst = mergeit(ans1,ans2);
+    // Step 3 create BST from inorder
+     TreeNode<int> * p = solve(0,bst.size()-1,bst);
+    return p;
+}
