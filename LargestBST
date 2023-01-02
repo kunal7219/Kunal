@@ -1,0 +1,37 @@
+class info{
+    public : 
+    int maxi;
+    int mini;
+    bool isBST;
+    int size;
+};
+info solve(TreeNode<int>* root,int & maxSum){
+    if(root==NULL){
+    return {INT_MIN,INT_MAX,true,0};
+    }
+    info left = solve(root->left,maxSum);
+    info right = solve(root->right,maxSum);
+    
+    info curr;
+    curr.size  = left.size + right.size + 1;
+    curr.mini = min(root->data,left.mini);
+    curr.maxi = max(root->data,right.maxi);
+    
+    if(left.isBST && right.isBST && (root->data > left.maxi && root->data<right.mini)){
+    curr.isBST = true;
+    }
+    else
+        curr.isBST = false;
+    
+    // answer update 
+    if(curr.isBST){
+    maxSum = max(maxSum,curr.size);
+    }
+    return curr;
+}
+int largestBST(TreeNode<int>* root) 
+{
+    int maxSum = 0;
+    info temp = solve(root,maxSum);
+    return maxSum;
+}
