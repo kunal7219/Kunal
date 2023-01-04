@@ -1,0 +1,37 @@
+class Solution
+{
+    private :
+    void heapify(vector<int> &ans, int i,int n){
+        int lr = i;
+        int left = 2*i + 1;
+        int right = 2*i + 2;
+        if(left<n && ans[left]<ans[lr])
+        lr = left;
+        if(right<n && ans[right]<ans[lr])
+        lr = right;
+        
+        if(lr!=i){
+            swap(ans[i],ans[lr]);
+            heapify(ans,lr,n);
+        }
+        return ;
+    }
+    public:
+    //Function to merge k sorted arrays.
+    vector<int> mergeKArrays(vector<vector<int>> arr, int K)
+    {
+        vector<int> ans;
+        for(int i=0;i<K;i++){
+            for(int j=0;j<K;j++){
+                ans.push_back(arr[i][j]);
+            }
+        }
+        int size = ans.size();
+        
+        for(int i = (size)/2-1;i>=0;i--){
+            heapify(ans,i,(size));
+        }
+
+        return ans;
+    }
+};
