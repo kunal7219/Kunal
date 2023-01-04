@@ -1,0 +1,33 @@
+class Solution{
+    private :
+    void heapify(vector<int> &ans, int i,int n){
+        int lr = i;
+        int left = 2*i + 1;
+        int right = 2*i + 2;
+        if(left<n && ans[left]>ans[lr])
+        lr = left;
+        if(right<n && ans[right]>ans[lr])
+        lr = right;
+        
+        if(lr!=i){
+            swap(ans[i],ans[lr]);
+            heapify(ans,lr,n);
+        }
+        return ;
+    }
+    public:
+    vector<int> mergeHeaps(vector<int> &a, vector<int> &b, int n, int m) {
+        vector<int> ans;
+        for(auto i:a)
+        ans.push_back(i);
+        for(auto i:b)
+        ans.push_back(i);
+        
+        
+        for(int i = (n+m)/2-1;i>=0;i--){
+            heapify(ans,i,(n+m));
+        }
+
+        return ans;
+    }
+};
