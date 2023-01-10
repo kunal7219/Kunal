@@ -1,0 +1,27 @@
+void create(int in[],map<int,int> &nodesToIndex,int n){
+    for(int i=0;i<n;i++){
+        nodesToIndex[in[i]]=i;
+    }
+    return;
+}
+Node* solve(int in[], int post[], int &i ,int s ,int e ,int size ,map<int,int>&nodesToIndex){
+    // Base call
+    if(i<0 || s>e)
+    return NULL;
+    
+    int element = post[i--];
+    Node* root = new Node(element);
+    int pos = nodesToIndex[element];
+    
+        root->right = solve(in,post,i,pos+1,e,size,nodesToIndex);
+    root->left = solve(in,post,i,s,pos-1,size,nodesToIndex);
+
+    return root;
+}
+Node *buildTree(int in[], int post[], int n) {
+    map<int,int> nodesToIndex;
+    create(in,nodesToIndex,n);
+    int i=n-1;
+    Node* ans = solve(in,post,i,0,n-1,n,nodesToIndex);
+    return ans;
+}
